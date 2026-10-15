@@ -627,8 +627,9 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                 </div>
               </div>
 
-              {/* Table Headers for Desktop */} 
-{/* Table Headers for Desktop */}
+              {itemsMode === 'itemized' ? (
+                <div className="bg-gray-50/70 border border-gray-200 rounded-2xl p-4 sm:p-5 space-y-3.5">
+                  {/* Table Headers for Desktop */}
                   <div className="hidden sm:grid sm:grid-cols-12 gap-3 text-xs font-bold text-gray-500 uppercase tracking-wider px-1">
                     <div className="sm:col-span-4">Item Name / Description</div>
                     <div className="sm:col-span-2 text-center">Qty</div>
@@ -722,3 +723,165 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                       );
                     })}
                   </div>
+
+                  {/* Add Row and Preset Chips */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-200">
+                    <button
+                      type="button"
+                      id="add-item-row-btn"
+                      onClick={() => handleAddItemRow()}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 text-xs font-semibold rounded-xl transition-all shadow-2xs cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5 text-[#f97316]" />
+                      <span>Add Another Item Row</span>
+                    </button>
+
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-[11px] text-gray-400 font-medium">Quick add:</span>
+                      {SARI_SARI_PRESETS.map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => handleAddItemRow(preset)}
+                          className="text-[11px] px-2 py-0.5 bg-white border border-gray-200 hover:border-orange-300 hover:bg-orange-50 text-gray-700 rounded-md transition-colors cursor-pointer"
+                        >
+                          +{preset}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <textarea
+                    rows={2}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="e.g., 2 Canned Sardines, 1kg Rice, 3 Sachets Coffee..."
+                    className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#f97316] transition-colors"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Total Credit Amount Field */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="credit-amount-input"
+                  className="block text-sm font-semibold text-gray-800"
+                >
+                  Credit Amount (Utang) <span className="text-red-500">*</span>
+                </label>
+                {itemsMode === 'itemized' && numAmount > 0 && (
+                  <span className="text-xs text-orange-600 font-semibold">
+                    Computed from item prices
+                  </span>
+                )}
+              </div>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 font-bold text-base">
+                  ₱
+                </div>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  id="credit-amount-input"
+                  value={amount}
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                    if (error) setError('');
+                  }}
+                  placeholder="0.00"
+                  className="w-full pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f97316]/20 focus:border-[#f97316] transition-colors shadow-2xs font-mono font-medium"
+                />
+              </div>
+
+              {/* Quick Amount Suggestion Chips */}
+              <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                <span className="text-[11px] text-gray-400 font-medium">Quick amounts:</span>
+                {[20, 50, 100, 150, 200, 350].map((presetVal) => (
+                  <button
+                    key={presetVal}
+                    type="button"
+                    onClick={() => {
+                      setAmount(presetVal.toFixed(2));
+                      if (error) setError('');
+                    }}
+                    className="text-[11px] px-2 py-1 bg-gray-50 hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 border border-gray-200 text-gray-600 rounded-lg font-mono transition-colors cursor-pointer"
+                  >
+                    +₱{presetVal}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Date Field */}
+            <div>
+              <label
+                htmlFor="transaction-date-input"
+                className="block text-sm font-semibold text-gray-800 mb-2"
+              >
+                Date
+              </label>
+              <div className="relative">
+                <input
+                  type="date"
+                  id="transaction-date-input"
+                  value={transactionDate}
+                  onChange={(e) => setTransactionDate(e.target.value)}
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-sm sm:text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f97316]/20 focus:border-[#f97316] transition-colors shadow-2xs cursor-pointer"
+                />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <Calendar className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+
+            {/* Dynamic Feedback Box (Matches Record Payment style) */}
+            <div
+              id="dynamic-feedback-box"
+              className="p-4 rounded-xl border bg-orange-50/70 border-orange-200 text-orange-950 transition-all"
+            >
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0 text-orange-600" />
+                <div className="space-y-0.5">
+                  <p id="remaining-balance-text" className="text-sm sm:text-base font-bold">
+                    New Total Utang: ₱{projectedBalance.toFixed(2)}
+                  </p>
+                  <p id="feedback-subtext" className="text-xs text-orange-800/90">
+                    Previous utang: <b className="font-mono">₱{currentBalance.toFixed(2)}</b>
+                    {numAmount > 0 && (
+                      <> + This purchase: <b className="font-mono">₱{numAmount.toFixed(2)}</b></>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                id="cancel-credit-btn"
+                onClick={onBack}
+                className="py-2.5 px-5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                id="save-credit-btn"
+                className="py-2.5 px-6 bg-[#f97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white font-semibold text-sm rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/40"
+              >
+                <span>Save Credit Transaction</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  );
+};
