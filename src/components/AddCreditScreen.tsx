@@ -627,14 +627,13 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                 </div>
               </div>
 
-              {itemsMode === 'itemized' ? (
-                <div className="bg-gray-50/70 border border-gray-200 rounded-2xl p-4 sm:p-5 space-y-3.5">
-                  {/* Table Headers for Desktop */}
+              {/* Table Headers for Desktop */} 
+{/* Table Headers for Desktop */}
                   <div className="hidden sm:grid sm:grid-cols-12 gap-3 text-xs font-bold text-gray-500 uppercase tracking-wider px-1">
-                    <div className="sm:col-span-5">Item Name / Description</div>
+                    <div className="sm:col-span-4">Item Name / Description</div>
                     <div className="sm:col-span-2 text-center">Qty</div>
-                    <div className="sm:col-span-3">Unit Price (₱)</div>
-                    <div className="sm:col-span-2 text-right pr-6">Subtotal (₱)</div>
+                    <div className="sm:col-span-3 text-center">Unit Price (₱)</div>
+                    <div className="sm:col-span-3 text-right pr-7">Subtotal (₱)</div>
                   </div>
 
                   {/* Item Rows */}
@@ -650,7 +649,7 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                           className="flex flex-col sm:grid sm:grid-cols-12 gap-2.5 sm:gap-3 items-stretch sm:items-center bg-white p-3 rounded-xl border border-gray-200 transition-colors shadow-2xs"
                         >
                           {/* Item Name */}
-                          <div className="w-full sm:col-span-5">
+                          <div className="w-full sm:col-span-4">
                             <span className="sm:hidden text-xs font-bold text-gray-600 mb-1 block">
                               Item #{idx + 1}:
                             </span>
@@ -676,7 +675,7 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                                 value={row.qty}
                                 onChange={(e) => handleUpdateItemRow(row.id, 'qty', e.target.value)}
                                 placeholder="1"
-                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl text-sm text-center text-gray-900 font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#f97316]"
+                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl text-sm text-center text-gray-900 font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#f97316]"
                               />
                             </div>
 
@@ -685,7 +684,7 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                                 Price (₱):
                               </span>
                               <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-bold pointer-events-none">
+                                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-bold pointer-events-none">
                                   ₱
                                 </span>
                                 <input
@@ -695,17 +694,17 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                                   value={row.price}
                                   onChange={(e) => handleUpdateItemRow(row.id, 'price', e.target.value)}
                                   placeholder="0.00"
-                                  className="w-full pl-7 pr-3 py-2 bg-white border border-gray-300 rounded-xl text-sm text-gray-900 font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#f97316]"
+                                  className="w-full pl-7 pr-3 py-2 bg-white border border-gray-300 rounded-xl text-sm text-gray-900 font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#f97316]"
                                 />
                               </div>
                             </div>
                           </div>
 
                           {/* Line total & Delete */}
-                          <div className="w-full sm:col-span-2 flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-200">
+                          <div className="w-full sm:col-span-3 flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-200">
                             <div className="text-right">
                               <span className="sm:hidden text-xs text-gray-500 mr-1.5">Line Total:</span>
-                              <span className="text-sm font-bold text-gray-900 font-mono">
+                              <span className="text-sm font-bold text-gray-900 font-mono whitespace-nowrap">
                                 ₱{lineTotal.toFixed(2)}
                               </span>
                             </div>
@@ -713,7 +712,7 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                             <button
                               type="button"
                               onClick={() => handleRemoveItemRow(row.id)}
-                              className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                              className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer shrink-0"
                               title="Delete Item"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -723,165 +722,3 @@ export const AddCreditScreen: React.FC<AddCreditScreenProps> = ({
                       );
                     })}
                   </div>
-
-                  {/* Add Row and Preset Chips */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-200">
-                    <button
-                      type="button"
-                      id="add-item-row-btn"
-                      onClick={() => handleAddItemRow()}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 text-xs font-semibold rounded-xl transition-all shadow-2xs cursor-pointer"
-                    >
-                      <Plus className="w-3.5 h-3.5 text-[#f97316]" />
-                      <span>Add Another Item Row</span>
-                    </button>
-
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="text-[11px] text-gray-400 font-medium">Quick add:</span>
-                      {SARI_SARI_PRESETS.map((preset) => (
-                        <button
-                          key={preset}
-                          type="button"
-                          onClick={() => handleAddItemRow(preset)}
-                          className="text-[11px] px-2 py-0.5 bg-white border border-gray-200 hover:border-orange-300 hover:bg-orange-50 text-gray-700 rounded-md transition-colors cursor-pointer"
-                        >
-                          +{preset}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <textarea
-                    rows={2}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="e.g., 2 Canned Sardines, 1kg Rice, 3 Sachets Coffee..."
-                    className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#f97316] transition-colors"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Total Credit Amount Field */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label
-                  htmlFor="credit-amount-input"
-                  className="block text-sm font-semibold text-gray-800"
-                >
-                  Credit Amount (Utang) <span className="text-red-500">*</span>
-                </label>
-                {itemsMode === 'itemized' && numAmount > 0 && (
-                  <span className="text-xs text-orange-600 font-semibold">
-                    Computed from item prices
-                  </span>
-                )}
-              </div>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 font-bold text-base">
-                  ₱
-                </div>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  id="credit-amount-input"
-                  value={amount}
-                  onChange={(e) => {
-                    setAmount(e.target.value);
-                    if (error) setError('');
-                  }}
-                  placeholder="0.00"
-                  className="w-full pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f97316]/20 focus:border-[#f97316] transition-colors shadow-2xs font-mono font-medium"
-                />
-              </div>
-
-              {/* Quick Amount Suggestion Chips */}
-              <div className="flex flex-wrap items-center gap-1.5 mt-2">
-                <span className="text-[11px] text-gray-400 font-medium">Quick amounts:</span>
-                {[20, 50, 100, 150, 200, 350].map((presetVal) => (
-                  <button
-                    key={presetVal}
-                    type="button"
-                    onClick={() => {
-                      setAmount(presetVal.toFixed(2));
-                      if (error) setError('');
-                    }}
-                    className="text-[11px] px-2 py-1 bg-gray-50 hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 border border-gray-200 text-gray-600 rounded-lg font-mono transition-colors cursor-pointer"
-                  >
-                    +₱{presetVal}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Date Field */}
-            <div>
-              <label
-                htmlFor="transaction-date-input"
-                className="block text-sm font-semibold text-gray-800 mb-2"
-              >
-                Date
-              </label>
-              <div className="relative">
-                <input
-                  type="date"
-                  id="transaction-date-input"
-                  value={transactionDate}
-                  onChange={(e) => setTransactionDate(e.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-sm sm:text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f97316]/20 focus:border-[#f97316] transition-colors shadow-2xs cursor-pointer"
-                />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                  <Calendar className="w-5 h-5" />
-                </div>
-              </div>
-            </div>
-
-            {/* Dynamic Feedback Box (Matches Record Payment style) */}
-            <div
-              id="dynamic-feedback-box"
-              className="p-4 rounded-xl border bg-orange-50/70 border-orange-200 text-orange-950 transition-all"
-            >
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0 text-orange-600" />
-                <div className="space-y-0.5">
-                  <p id="remaining-balance-text" className="text-sm sm:text-base font-bold">
-                    New Total Utang: ₱{projectedBalance.toFixed(2)}
-                  </p>
-                  <p id="feedback-subtext" className="text-xs text-orange-800/90">
-                    Previous utang: <b className="font-mono">₱{currentBalance.toFixed(2)}</b>
-                    {numAmount > 0 && (
-                      <> + This purchase: <b className="font-mono">₱{numAmount.toFixed(2)}</b></>
-                    )}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                id="cancel-credit-btn"
-                onClick={onBack}
-                className="py-2.5 px-5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-
-              <button
-                type="submit"
-                id="save-credit-btn"
-                className="py-2.5 px-6 bg-[#f97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white font-semibold text-sm rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/40"
-              >
-                <span>Save Credit Transaction</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </main>
-    </div>
-  );
-};
